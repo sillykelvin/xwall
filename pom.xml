@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ini.kelvin.fkgfw</groupId>
     <artifactId>fkgfw</artifactId>
+    <description>a project used to fuck Chinese GFW</description>
     <packaging>pom</packaging>
     <version>0.01</version>
 
