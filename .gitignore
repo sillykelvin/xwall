@@ -3,3 +3,7 @@
 *.ipr
 *.iws
 .idea/
+
+# log files
+*.log
+*.log.*
