@@ -3,10 +3,7 @@ package ini.kelvin.fkgfw.client;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ChannelBuf;
 import io.netty.buffer.UnsafeByteBuf;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandler;
+import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +17,22 @@ import java.nio.charset.Charset;
  */
 
 public class LoggingHandler extends ChannelHandlerAdapter implements ChannelInboundHandler {
-    public static enum LogLevel { // three levels will be enough
-        DEBUG,
-        INFO,
-        ERROR,
+    public static String NAME = "LOGGING_HANDLER";
+
+    public static enum LogLevel { // four levels will be enough
+        DEBUG(0),
+        INFO(1),
+        ERROR(2),
+        OFF(3);
+
+        private int level;
+        LogLevel(int level) {
+            this.level = level;
+        }
+
+        public boolean isLowerThan(LogLevel that) {
+            return this.level < that.level;
+        }
     }
 
     private static final Logger log = LoggerFactory.getLogger(LoggingHandler.class);
@@ -41,45 +50,45 @@ public class LoggingHandler extends ChannelHandlerAdapter implements ChannelInbo
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        log("A new channel registered: {}.", ctx.channel());
+        logInfo("A new channel registered: {}.", ctx.channel());
         super.channelRegistered(ctx);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        log("A channel un-registered: {}.", ctx.channel());
+        logInfo("A channel un-registered: {}.", ctx.channel());
         super.channelUnregistered(ctx);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log("A channel activated: {}.", ctx.channel());
+        logInfo("A channel activated: {}.", ctx.channel());
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log("A channel inactivated: {}.", ctx.channel());
+        logInfo("A channel inactivated: {}.", ctx.channel());
         super.channelInactive(ctx);
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
                                 Throwable cause) throws Exception {
-        log("A channel caught exception: {}, exception: {}.", ctx.channel(), cause);
+        logError("A channel caught exception: {}, exception stack trace:\n{}.", ctx.channel(), cause.getStackTrace());
         super.exceptionCaught(ctx, cause);
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx,
                                    Object evt) throws Exception {
-        log("A channel triggered user event: {}, event: {}.", ctx.channel(), evt);
+        logInfo("A channel triggered user event: {}, event: {}.", ctx.channel(), evt);
         super.userEventTriggered(ctx, evt);
     }
 
     @Override
     public void bind(ChannelHandlerContext ctx,
                      SocketAddress localAddress, ChannelFuture future) throws Exception {
-        log("A channel bound: {}, local address: {}.", ctx.channel(), localAddress);
+        logInfo("A channel bound: {}, local address: {}.", ctx.channel(), localAddress);
         super.bind(ctx, localAddress, future);
     }
 
@@ -87,28 +96,28 @@ public class LoggingHandler extends ChannelHandlerAdapter implements ChannelInbo
     public void connect(ChannelHandlerContext ctx,
                         SocketAddress remoteAddress, SocketAddress localAddress,
                         ChannelFuture future) throws Exception {
-        log("A channel connected: {}, remote address: {}.", ctx.channel(), remoteAddress);
+        logInfo("A channel connected: {}, remote address: {}.", ctx.channel(), remoteAddress);
         super.connect(ctx, remoteAddress, localAddress, future);
     }
 
     @Override
     public void disconnect(ChannelHandlerContext ctx,
                            ChannelFuture future) throws Exception {
-        log("A channel disconnected: {}.", ctx.channel());
+        logInfo("A channel disconnected: {}.", ctx.channel());
         super.disconnect(ctx, future);
     }
 
     @Override
     public void close(ChannelHandlerContext ctx,
                       ChannelFuture future) throws Exception {
-        log("A channel closed: {}.", ctx.channel());
+        logInfo("A channel closed: {}.", ctx.channel());
         super.close(ctx, future);
     }
 
     @Override
     public void deregister(ChannelHandlerContext ctx,
                            ChannelFuture future) throws Exception {
-        log("A channel de-registered: {}.", ctx.channel());
+        logInfo("A channel de-registered: {}.", ctx.channel());
         super.deregister(ctx, future);
     }
 
@@ -123,9 +132,9 @@ public class LoggingHandler extends ChannelHandlerAdapter implements ChannelInbo
             throws Exception {
         ByteBuf in = ctx.inboundByteBuffer();
         if(in != null && in.readable() && in.readableBytes() > 0) {
-            log("Data transferred from {}, content is as below:\n{}", ctx.channel(), in.toString(charset));
+            logDebug("Data read from {}, content is as below:\n{}", ctx.channel(), in.toString(charset));
         } else {
-            log("Inbound buffer updated, but no readable data: {}.", ctx.channel());
+            logDebug("Inbound buffer updated, but no readable data: {}.", ctx.channel());
         }
         ctx.nextInboundByteBuffer().writeBytes(in);
         ctx.fireInboundBufferUpdated();
@@ -141,7 +150,11 @@ public class LoggingHandler extends ChannelHandlerAdapter implements ChannelInbo
         ((UnsafeByteBuf) buf).free();
     }
 
-    private void log(String pattern, Object... args) {
+    private void log(LogLevel level, String pattern, Object... args) {
+        if(level.isLowerThan(this.level) || level == LogLevel.OFF) {
+            return;
+        }
+
         if(level.equals(LogLevel.DEBUG) && log.isDebugEnabled()) {
             log.debug(pattern, args);
         } else if(level.equals(LogLevel.INFO) && log.isInfoEnabled()) {
@@ -149,5 +162,17 @@ public class LoggingHandler extends ChannelHandlerAdapter implements ChannelInbo
         } else if(level.equals(LogLevel.ERROR) && log.isErrorEnabled()) {
             log.error(pattern, args);
         }
+    }
+
+    private void logDebug(String pattern, Object... args) {
+        log(LogLevel.DEBUG, pattern, args);
+    }
+
+    private void logInfo(String pattern, Object... args) {
+        log(LogLevel.INFO, pattern, args);
+    }
+
+    private void logError(String pattern, Object... args) {
+        log(LogLevel.ERROR, pattern, args);
     }
 }

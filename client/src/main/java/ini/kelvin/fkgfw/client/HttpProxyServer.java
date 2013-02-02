@@ -3,8 +3,6 @@ package ini.kelvin.fkgfw.client;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.socket.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Author: kelvin_hu
@@ -13,8 +11,6 @@ import org.slf4j.LoggerFactory;
  */
 
 public class HttpProxyServer implements ProxyServer {
-    private static final Logger log = LoggerFactory.getLogger(HttpProxyServer.class);
-
     private int port = 7077; // default 7077
     private ServerBootstrap server;
 

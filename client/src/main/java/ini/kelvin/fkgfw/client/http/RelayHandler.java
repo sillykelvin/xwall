@@ -1,10 +1,13 @@
 package ini.kelvin.fkgfw.client.http;
 
+import ini.kelvin.fkgfw.client.LogHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundByteHandlerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Author: kelvin_hu
@@ -13,15 +16,19 @@ import io.netty.channel.ChannelInboundByteHandlerAdapter;
  */
 
 public final class RelayHandler extends ChannelInboundByteHandlerAdapter {
-    private static final String name = "RELAY_HANDLER";
+    public static final String NAME = "RELAY_HANDLER";
 
-    public static String name() {
-        return name;
-    }
+    private static final Logger log = LoggerFactory.getLogger(RelayHandler.class);
 
-    private final Channel relayChannel;
+    private Channel relayChannel;
+
+    public RelayHandler() {}
 
     public RelayHandler(Channel relayChannel) {
+        this.relayChannel = relayChannel;
+    }
+
+    public void setRelayChannel(Channel relayChannel) {
         this.relayChannel = relayChannel;
     }
 
@@ -32,6 +39,10 @@ public final class RelayHandler extends ChannelInboundByteHandlerAdapter {
 
     @Override
     public void inboundBufferUpdated(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+        if(relayChannel == null) {
+            throw new IllegalStateException("The relay channel has not been initialized");
+        }
+
         ByteBuf out = relayChannel.outboundByteBuffer();
         out.discardReadBytes();
         out.writeBytes(in);
@@ -43,14 +54,14 @@ public final class RelayHandler extends ChannelInboundByteHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        if (relayChannel.isActive()) {
+        if (relayChannel != null && relayChannel.isActive()) {
             relayChannel.flush().addListener(ChannelFutureListener.CLOSE);
         }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
+        LogHelper.logException(log, "Exception caught", cause);
         ctx.close();
     }
 }
