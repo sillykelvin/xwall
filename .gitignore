@@ -7,3 +7,6 @@
 # log files
 *.log
 *.log.*
+
+# folder "trash"
+trash/
