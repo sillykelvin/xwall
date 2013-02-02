@@ -18,6 +18,8 @@ public final class HttpUtils {
     public static final int DEFAULT_HTTP_PORT = 80;
     public static final int DEFAULT_HTTPS_PORT = 443;
 
+    public static final String HTTP_SCHEMA = "http://";
+
     public static final String PROXY_CONNECTION_HEADER = "Proxy-Connection";
     public static final String HTTP_REQUEST_ENCODER_NAME = "HTTP_REQUEST_ENCODER";
     public static final String HTTP_RESPONSE_ENCODER_NAME = "HTTP_RESPONSE_ENCODER";

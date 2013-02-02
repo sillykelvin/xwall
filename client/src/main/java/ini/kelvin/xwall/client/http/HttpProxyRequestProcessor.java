@@ -43,6 +43,14 @@ public class HttpProxyRequestProcessor extends ChannelInboundMessageHandlerAdapt
         // remove the proxy related headers
         msg.removeHeader(HttpUtils.PROXY_CONNECTION_HEADER);
 
+        // the uri is like "http://www.example.com/real/request/uri"
+        // so the host should be removed, some sites cannot handle this kind of uri correctly
+        String uri = msg.getUri();
+        if(uri.startsWith(HttpUtils.HTTP_SCHEMA)) {
+            int idx = uri.indexOf('/', HttpUtils.HTTP_SCHEMA.length());
+            msg.setUri(idx == -1 ? "/" : uri.substring(idx));
+        }
+
         if(!ChannelHandlerUtil.unfoldAndAdd(ctx, msg, true)) {
             throw new IllegalStateException("Need extra handlers to process the http request.");
         }
