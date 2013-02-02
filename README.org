@@ -1,0 +1,41 @@
+#+TITLE:       xWall - a GFW fucker
+#+AUTHOR:      Kelvin Hu
+#+EMAIL:       ini.kelvin@gmail.com
+#+DATE:        2013-02-02 Sat
+#+LANGUAGE:    en
+
+xWall is a project aimed to fuck China GFW.
+
+* Why is xWall?
+
+  Several days ago, the GFW poisoned DNS server, and then github.com is out of
+  accessibility. To continue visiting github.com, I had to modify my hosts file.
+  Then github.com is recovered, but the visiting speed is insufferable, it took
+  almost about one hour for me to clone a very small project!! I believe this is
+  affected by GFW, since it never does good.
+
+  Before github, GFW blocked many other nice websites, youtube, facebook, and
+  twitter etc. I can bear it because I do not visit them too much. But, I cannot
+  bear it any more now because github.com is one of my favourite site!
+
+  So then, xWall is born, aimed to fuck GFW, its structure is like goagent:
+
+  : browser => local proxy => remote proxy => real site
+
+  Currently I have finished coding of local proxy, based on Netty, a very nice
+  NIO framework of Java.
+
+* Why not goagent, or others?
+
+  goagent is very nice, but I want more, I want xWall to proxy all my requests,
+  and then does proxy according to GFW blacklist: proxy for the sites on the
+  list, and visit other sites directly, so I will not need to switch proxy
+  manually.
+
+  And another reason: goagent is only available for GAE, but I want to use more
+  PaaS services, such as OpenShift, Heroku, etc.
+
+* More
+
+  xWall is a project designed for myself, you may fork it if you find it is also
+  useful to you.
