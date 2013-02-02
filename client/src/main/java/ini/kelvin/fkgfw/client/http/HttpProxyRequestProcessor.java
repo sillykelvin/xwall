@@ -1,6 +1,5 @@
-package ini.kelvin.fkgfw.client;
+package ini.kelvin.fkgfw.client.http;
 
-import ini.kelvin.fkgfw.client.http.HttpUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelHandlerUtil;
 import io.netty.channel.ChannelInboundMessageHandlerAdapter;

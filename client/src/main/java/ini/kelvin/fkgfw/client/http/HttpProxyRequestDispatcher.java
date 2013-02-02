@@ -1,8 +1,5 @@
 package ini.kelvin.fkgfw.client.http;
 
-import ini.kelvin.fkgfw.client.HttpProxyRequestDecoder;
-import ini.kelvin.fkgfw.client.HttpProxyRequestProcessor;
-import ini.kelvin.fkgfw.client.HttpProxyRequestSender;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundByteHandlerAdapter;

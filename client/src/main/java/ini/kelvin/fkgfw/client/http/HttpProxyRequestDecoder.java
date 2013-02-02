@@ -1,4 +1,4 @@
-package ini.kelvin.fkgfw.client;
+package ini.kelvin.fkgfw.client.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

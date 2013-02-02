@@ -1,5 +1,6 @@
 package ini.kelvin.fkgfw.client;
 
+import ini.kelvin.fkgfw.client.http.HttpProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

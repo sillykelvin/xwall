@@ -1,6 +1,7 @@
 package ini.kelvin.fkgfw.client.http;
 
 import ini.kelvin.fkgfw.client.LoggingHandler;
+import ini.kelvin.fkgfw.client.RelayHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;

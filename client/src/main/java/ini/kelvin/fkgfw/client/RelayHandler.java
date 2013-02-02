@@ -1,6 +1,5 @@
-package ini.kelvin.fkgfw.client.http;
+package ini.kelvin.fkgfw.client;
 
-import ini.kelvin.fkgfw.client.LogHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
