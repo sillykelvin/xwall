@@ -1,4 +1,4 @@
-package ini.kelvin.fkgfw.client;
+package ini.kelvin.xwall.client;
 
 /**
  * Author: kelvin_hu

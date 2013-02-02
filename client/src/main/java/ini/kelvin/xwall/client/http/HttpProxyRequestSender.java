@@ -1,6 +1,6 @@
-package ini.kelvin.fkgfw.client.http;
+package ini.kelvin.xwall.client.http;
 
-import ini.kelvin.fkgfw.client.RelayHandler;
+import ini.kelvin.xwall.client.RelayHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.nio.NioSocketChannel;

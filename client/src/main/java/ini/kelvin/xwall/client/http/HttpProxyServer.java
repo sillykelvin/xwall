@@ -1,6 +1,6 @@
-package ini.kelvin.fkgfw.client.http;
+package ini.kelvin.xwall.client.http;
 
-import ini.kelvin.fkgfw.client.ProxyServer;
+import ini.kelvin.xwall.client.ProxyServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.socket.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;

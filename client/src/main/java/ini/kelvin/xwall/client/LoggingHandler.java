@@ -1,4 +1,4 @@
-package ini.kelvin.fkgfw.client;
+package ini.kelvin.xwall.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ChannelBuf;

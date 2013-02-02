@@ -1,4 +1,4 @@
-package ini.kelvin.fkgfw.client.http;
+package ini.kelvin.xwall.client.http;
 
 import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;

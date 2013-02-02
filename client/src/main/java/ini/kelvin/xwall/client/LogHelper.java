@@ -1,4 +1,4 @@
-package ini.kelvin.fkgfw.client;
+package ini.kelvin.xwall.client;
 
 import org.slf4j.Logger;
 
