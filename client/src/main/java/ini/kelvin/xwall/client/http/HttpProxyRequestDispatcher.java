@@ -1,5 +1,6 @@
 package ini.kelvin.xwall.client.http;
 
+import ini.kelvin.xwall.client.RelayHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundByteHandlerAdapter;
@@ -17,7 +18,7 @@ public class HttpProxyRequestDispatcher extends ChannelInboundByteHandlerAdapter
 
     @Override
     public void inboundBufferUpdated(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        if(SslHandler.isEncrypted(in)) { // TODO improve the performance here
+        if(shouldRemoveMessageHandler(ctx, in)) {
             ChannelPipeline pipeline = ctx.pipeline();
             pipeline.remove(HttpProxyRequestDecoder.NAME);
             pipeline.remove(HttpProxyRequestProcessor.NAME);
@@ -25,7 +26,13 @@ public class HttpProxyRequestDispatcher extends ChannelInboundByteHandlerAdapter
 
             pipeline.remove(this); // also remove this handler itself
         }
+
         ctx.nextInboundByteBuffer().writeBytes(in);
         ctx.fireInboundBufferUpdated();
+    }
+
+    private boolean shouldRemoveMessageHandler(ChannelHandlerContext ctx, ByteBuf in) {
+        RelayHandler relayHandler = (RelayHandler)ctx.pipeline().get(RelayHandler.NAME);
+        return relayHandler.getRelayChannel() != null || SslHandler.isEncrypted(in); // TODO improve the performance here
     }
 }

@@ -31,6 +31,10 @@ public final class RelayHandler extends ChannelInboundByteHandlerAdapter {
         this.relayChannel = relayChannel;
     }
 
+    public Channel getRelayChannel() {
+        return relayChannel;
+    }
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
