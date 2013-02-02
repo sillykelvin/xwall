@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ini.kelvin.xwall</groupId>
     <artifactId>xwall</artifactId>
-    <description>a project used to fuck Chinese GFW</description>
+    <description>a project aimed to fuck Chinese GFW</description>
     <packaging>pom</packaging>
     <version>0.01</version>
 
