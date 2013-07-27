@@ -4,6 +4,11 @@
 #+DATE:        2013-02-02 Sat
 #+LANGUAGE:    en
 
+
+*NOW THIS PROJECT WILL NOT BE CONTINUED.*
+
+-------------------------------------------------------------------------------
+
 xWall is a project aimed to fuck China GFW.
 
 * Why is xWall?
